@@ -1,15 +1,29 @@
 import db from '@/lib/db'
-import { todos } from '@/lib/schema'
+import { todos, user } from '@/lib/schema'
 import { authServer } from '@/lib/auth/server'
 import { eq, desc } from 'drizzle-orm'
-import { redirect } from 'next/navigation'
 import { TodoForm } from '@/components/todo-form'
 import { TodoItem } from '@/components/todo-item'
+
+async function ensureUserExists(sessionUser: { id: string; email: string; name: string }) {
+  const existingUsers = await db.select().from(user).where(eq(user.id, sessionUser.id)).limit(1)
+  
+  if (existingUsers.length === 0) {
+    await db.insert(user).values({
+      id: sessionUser.id,
+      email: sessionUser.email,
+      name: sessionUser.name || 'User',
+      emailVerified: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }).onConflictDoNothing()
+  }
+}
 
 export default async function Home() {
   const result = await authServer.getSession() as any;
   
-  // If no user is logged in, show a landing state or redirect
+  // If no user is logged in, show a landing state
   if (!result || result.error || !result.data || !result.data.user) {
     return (
       <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center p-4 text-center">
@@ -29,11 +43,15 @@ export default async function Home() {
     )
   }
 
-  const session = result.data
+  const sessionUser = result.data.user
+  
+  // Sync user record to local DB
+  await ensureUserExists(sessionUser)
+
   const userTodos = await db
     .select()
     .from(todos)
-    .where(eq(todos.userId, session.user.id))
+    .where(eq(todos.userId, sessionUser.id))
     .orderBy(desc(todos.createdAt))
 
   return (
