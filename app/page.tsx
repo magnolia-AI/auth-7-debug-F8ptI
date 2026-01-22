@@ -1,28 +1,50 @@
-'use client'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { useToast } from "@/hooks/use-toast"
+import db from '@/lib/db'
+import { todos } from '@/lib/schema'
+import { authServer } from '@/lib/auth/server'
+import { eq, desc } from 'drizzle-orm'
+import { redirect } from 'next/navigation'
+import { TodoForm } from '@/components/todo-form'
+import { TodoItem } from '@/components/todo-item'
+import { AuthHeader } from '@/components/auth-header'
 
-{/* 
-  TEMPLATE PAGE: Home
-  This is a template home page.
-  Replace all content with content that suits the users request.
-*/}
-export default function Home() {
-  const { toast } = useToast()
+export default async function Home() {
+  const result = await authServer.getSession() as any;
+  
+  if (!result || result.error) {
+    redirect('/auth/sign-in')
+  }
+
+  const session = result.data
+  const userTodos = await db
+    .select()
+    .from(todos)
+    .where(eq(todos.userId, session.user.id))
+    .orderBy(desc(todos.createdAt))
+
   return (
-    <div className="min-h-full">
+    <div className="min-h-screen bg-background">
+      <AuthHeader />
+      <main className="container max-w-2xl px-4 py-12 mx-auto">
+        <header className="mb-10 text-center">
+          <h1 className="text-4xl font-bold tracking-tight mb-2">My Tasks</h1>
+          <p className="text-muted-foreground">Keep track of what needs to be done.</p>
+        </header>
 
-      <section className="container mx-auto px-4 pt-24 pb-20">
-        <div className="max-w-[800px] mx-auto text-center">
-          <h1 className="text-5xl font-bold tracking-tight lg:text-6xl">
-            Template Starter
-          </h1>
-          <p className="mt-6 text-xl text-muted-foreground max-w-[600px] mx-auto">
-            This is a customizable template. Replace all content with your own using the chat interface.
-          </p>
+        <TodoForm />
+
+        <div className="space-y-1">
+          {userTodos.length === 0 ? (
+            <div className="text-center py-12 border-2 border-dashed rounded-xl">
+              <p className="text-muted-foregroundInter font-medium">No tasks yet. Start by adding one above!</p>
+            </div>
+          ) : (
+            userTodos.map((todo) => (
+              <TodoItem key={todo.id} todo={todo} />
+            ))
+          )}
         </div>
-      </section>
+      </main>
     </div>
   )
 }
+
