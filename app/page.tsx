@@ -5,14 +5,28 @@ import { eq, desc } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import { TodoForm } from '@/components/todo-form'
 import { TodoItem } from '@/components/todo-item'
-import { AuthHeader } from '@/components/auth-header'
 
 export default async function Home() {
   const result = await authServer.getSession() as any;
   
-  // Safely check if result exists and contains the required session/user data
+  // If no user is logged in, show a landing state or redirect
   if (!result || result.error || !result.data || !result.data.user) {
-    redirect('/auth/sign-in')
+    return (
+      <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center p-4 text-center">
+        <h1 className="text-4xl font-bold tracking-tight mb-4 text-primary">Simple Todo App</h1>
+        <p className="text-xl text-muted-foreground mb-8 max-w-md">
+          Organize your life with our simple, secure todo application. Sign in to start managing your tasks.
+        </p>
+        <div className="flex gap-4">
+          <a 
+            href="/auth/sign-in" 
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
+          >
+            Get Started
+          </a>
+        </div>
+      </div>
+    )
   }
 
   const session = result.data
@@ -24,7 +38,6 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AuthHeader />
       <main className="container max-w-2xl px-4 py-12 mx-auto">
         <header className="mb-10 text-center">
           <h1 className="text-4xl font-bold tracking-tight mb-2">My Tasks</h1>
