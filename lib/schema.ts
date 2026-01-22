@@ -1,27 +1,59 @@
-import { pgTable, serial, varchar, text, timestamp, boolean, integer } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core';
 
-// // Example users table - modify according to your needs
-// export const users = pgTable('users', {
-//   id: serial('id').primaryKey(),
-//   name: varchar('name', { length: 255 }).notNull(),
-//   email: varchar('email', { length: 255 }).notNull().unique(),
-//   createdAt: timestamp('created_at').defaultNow().notNull(),
-//   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-// });
+export const user = pgTable("user", {
+	id: text("id").primaryKey(),
+	name: text('name').notNull(),
+	email: text('email').notNull().unique(),
+	emailVerified: boolean('emailVerified').notNull(),
+	image: text('image'),
+	createdAt: timestamp('createdAt').notNull(),
+	updatedAt: timestamp('updatedAt').notNull(),
+});
 
-// // Example posts table - modify according to your needs
-// export const posts = pgTable('posts', {
-//   id: serial('id').primaryKey(),
-//   title: varchar('title', { length: 255 }).notNull(),
-//   content: text('content'),
-//   published: boolean('published').default(false).notNull(),
-//   authorId: integer('author_id').references(() => users.id),
-//   createdAt: timestamp('created_at').defaultNow().notNull(),
-//   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-// });
+export const session = pgTable("session", {
+	id: text("id").primaryKey(),
+	expiresAt: timestamp('expiresAt').notNull(),
+	token: text('token').notNull().unique(),
+	createdAt: timestamp('createdAt').notNull(),
+	updatedAt: timestamp('updatedAt').notNull(),
+	ipAddress: text('ipAddress'),
+	userAgent: text('userAgent'),
+	userId: text('userId').notNull().references(() => user.id),
+});
 
-// // Type exports
-// export type User = typeof users.$inferSelect;
-// export type NewUser = typeof users.$inferInsert;
-// export type Post = typeof posts.$inferSelect;
-// export type NewPost = typeof posts.$inferInsert; 
+export const account = pgTable("account", {
+	id: text("id").primaryKey(),
+	accountId: text('accountId').notNull(),
+	providerId: text('providerId').notNull(),
+	userId: text('userId').notNull().references(() => user.id),
+	accessToken: text('accessToken'),
+	refreshToken: text('refreshToken'),
+	idToken: text('idToken'),
+	accessTokenExpiresAt: timestamp('accessTokenExpiresAt'),
+	refreshTokenExpiresAt: timestamp('refreshTokenExpiresAt'),
+	scope: text('scope'),
+	password: text('password'),
+	createdAt: timestamp('createdAt').notNull(),
+	updatedAt: timestamp('updatedAt').notNull(),
+});
+
+export const verification = pgTable("verification", {
+	id: text("id").primaryKey(),
+	identifier: text('identifier').notNull(),
+	value: text('value').notNull(),
+	expiresAt: timestamp('expiresAt').notNull(),
+	createdAt: timestamp('createdAt'),
+	updatedAt: timestamp('updatedAt'),
+});
+
+export const todos = pgTable("todos", {
+	id: text("id").primaryKey(),
+	task: text("task").notNull(),
+	completed: boolean("completed").default(false).notNull(),
+	userId: text("userId").notNull().references(() => user.id),
+	createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Todo = typeof todos.$inferSelect;
+export type NewTodo = typeof todos.$inferInsert;
+
