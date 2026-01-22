@@ -10,7 +10,8 @@ import { AuthHeader } from '@/components/auth-header'
 export default async function Home() {
   const result = await authServer.getSession() as any;
   
-  if (!result || result.error) {
+  // Safely check if result exists and contains the required session/user data
+  if (!result || result.error || !result.data || !result.data.user) {
     redirect('/auth/sign-in')
   }
 
@@ -35,7 +36,7 @@ export default async function Home() {
         <div className="space-y-1">
           {userTodos.length === 0 ? (
             <div className="text-center py-12 border-2 border-dashed rounded-xl">
-              <p className="text-muted-foregroundInter font-medium">No tasks yet. Start by adding one above!</p>
+              <p className="text-muted-foreground font-medium">No tasks yet. Start by adding one above!</p>
             </div>
           ) : (
             userTodos.map((todo) => (
