@@ -20,7 +20,7 @@ async function ensureUserExists(sessionUser: { id: string; email: string; name: 
   }
 }
 
-export default async function Home() {
+exprt default async funcion Home() {
   const result = await authServer.getSession() as any;
   
   // If no user is logged in, show a landing state
