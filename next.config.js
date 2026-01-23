@@ -39,10 +39,10 @@ const nextConfig = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ['*.fly.dev', '*.vy.app', 'vy.app'],
+      allowedOrigins: ['*.sprites.app', '*.vy.app', 'vy.app'],
     },
   },
-  allowedDevOrigins: ['*.fly.dev', 'vy.app', '*.vy.app'],
+  allowedDevOrigins: ['*.sprites.app', 'vy.app', '*.vy.app'],
   output: 'standalone',
   images: {
     remotePatterns: [
