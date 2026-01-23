@@ -13,25 +13,47 @@ interface TodoItemProps {
   todo: Todo
   radical?: boolean
   minimal?: boolean
+  onStateChange?: (todo: Todo) => void
+  onDelete?: (id: string) => void
 }
 
-export function TodoItem({ todo, radical = false, minimal = false }: TodoItemProps) {
+export function TodoItem({ 
+  todo, 
+  radical = false, 
+  minimal = false,
+  onStateChange,
+  onDelete
+}: TodoItemProps) {
   const [isUpdating, setIsUpdating] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleToggle = async () => {
+    // OPTIMISTIC UPDATE: Change local UI instantly
+    const updatedTodo = { ...todo, completed: !todo.completed };
+    if (onStateChange) onStateChange(updatedTodo);
+    
     setIsUpdating(true)
     try {
       await toggleTodo(todo.id, todo.completed)
+    } catch (err) {
+      // Rollback on error if necessary
+      if (onStateChange) onStateChange(todo);
+      console.error("Failed to toggle task", err);
     } finally {
       setIsUpdating(false)
     }
   }
 
   const handleDelete = async () => {
+    // OPTIMISTIC REMOVAL
+    if (onDelete) onDelete(todo.id);
+    
     setIsDeleting(true)
     try {
       await deleteTodo(todo.id)
+    } catch (err) {
+      // Re-add on error? usually better to just log
+      console.error("Failed to delete task", err);
     } finally {
       setIsDeleting(false)
     }

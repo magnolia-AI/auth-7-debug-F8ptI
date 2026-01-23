@@ -7,17 +7,23 @@ import { TodoItem } from '@/components/todo-item'
 import { Button } from '@/components/ui/button'
 import { Sparkles, LayoutGrid, Target, Zap } from 'lucide-react'
 import { type Todo } from '@/lib/schema'
+import { useRouter } from 'next/navigation'
 
 export default function HomeClient({ initialTodos }: { initialTodos: Todo[] }) {
   const [view, setView] = useState<'grid' | 'focus'>('grid')
   const [todos, setTodos] = useState(initialTodos)
+  const router = useRouter()
   
+  // Sync state whenever initialTodos changes (revalidation)
+  useEffect(() => {
+    setTodos(initialTodos)
+  }, [initialTodos])
+
   // Sort todos for the focus mode (incomplete first)
   const focusTodo = todos.find(t => !t.completed) || todos[0]
 
   return (
     <div className="relative min-h-screen">
-      {/* Radical background elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/20 blur-[120px] rounded-full animate-float" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full animate-float" style={{ animationDelay: '-2s' }} />
@@ -87,7 +93,16 @@ export default function HomeClient({ initialTodos }: { initialTodos: Todo[] }) {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: idx * 0.05 }}
                     >
-                      <TodoItem todo={todo} radical />
+                      <TodoItem 
+                        todo={todo} 
+                        radical 
+                        onStateChange={(updatedTodo) => {
+                          setTodos(prev => prev.map(t => t.id === updatedTodo.id ? updatedTodo : t))
+                        }}
+                        onDelete={(id) => {
+                          setTodos(prev => prev.filter(t => t.id !== id))
+                        }}
+                      />
                     </motion.div>
                   ))
                 )}
@@ -120,7 +135,17 @@ export default function HomeClient({ initialTodos }: { initialTodos: Todo[] }) {
                       {focusTodo.task}
                     </h2>
                     <div className="flex flex-wrap gap-6 pt-12 border-t border-white/10">
-                      <TodoItem todo={focusTodo} radical minimal />
+                      <TodoItem 
+                        todo={focusTodo} 
+                        radical 
+                        minimal 
+                        onStateChange={(updatedTodo) => {
+                          setTodos(prev => prev.map(t => t.id === updatedTodo.id ? updatedTodo : t))
+                        }}
+                        onDelete={(id) => {
+                          setTodos(prev => prev.filter(t => t.id !== id))
+                        }}
+                      />
                     </div>
                   </motion.div>
                 </div>
