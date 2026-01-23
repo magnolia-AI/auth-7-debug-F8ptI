@@ -70,50 +70,52 @@ export function TodoItem({ todo, radical = false, minimal = false }: TodoItemPro
   return (
     <div className={cn(
       "group transition-all duration-300",
-      radical ? "p-6 glass-card rounded-3xl" : "flex items-center justify-between p-4 border rounded-lg bg-card"
+      radical ? "p-8 glass-card rounded-[2rem] hover:border-white/30" : "flex items-center justify-between p-4 border rounded-lg bg-card"
     )}>
-      <div className={cn("flex items-start gap-4", radical && "mb-6")}>
+      <div className={cn("flex items-start gap-5", radical && "mb-4")}>
         <Checkbox
           checked={todo.completed}
           onCheckedChange={handleToggle}
           disabled={isUpdating}
           className={cn(
-            "h-6 w-6 rounded-full border-2 transition-transform active:scale-90",
+            "h-7 w-7 rounded-full border-2 border-white/20 data-[state=checked]:bg-purple-500 data-[state=checked]:border-purple-500 transition-all",
             radical && "mt-1"
           )}
         />
         <div className="flex-1 min-w-0">
           <p className={cn(
-            "text-lg font-medium transition-all duration-300 break-words",
-            todo.completed && "text-muted-foreground line-through opacity-50",
-            radical && !todo.completed && "text-white group-hover:text-purple-300"
+            "text-xl font-bold transition-all duration-300 break-words tracking-tight",
+            todo.completed && "text-white/30 line-through",
+            radical && !todo.completed && "text-white group-hover:text-purple-200"
           )}>
             {todo.task}
           </p>
           {radical && (
-            <p className="text-xs text-muted-foreground/50 mt-2 uppercase tracking-widest">
-              Created {new Date(todo.createdAt).toLocaleDateString()}
-            </p>
+            <div className="flex items-center gap-2 mt-3 overflow-hidden">
+               <span className="text-[10px] bg-white/10 text-white/70 px-2 py-0.5 rounded-md font-black uppercase tracking-widest whitespace-nowrap">
+                SECURED: {new Date(todo.createdAt).toLocaleDateString()}
+              </span>
+            </div>
           )}
         </div>
       </div>
 
       <div className={cn(
-        "flex items-center justify-end gap-2",
-        radical && "opacity-0 group-hover:opacity-100 transition-opacity"
+        "flex items-center justify-end gap-3 pt-4 border-t border-white/5 mt-4",
+        radical && "opacity-40 group-hover:opacity-100 transition-opacity"
       )}>
-        {isUpdating && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+        {isUpdating && <Loader2 className="h-4 w-4 animate-spin text-purple-400" />}
         <Button
           variant="ghost"
           size="icon"
           onClick={handleDelete}
           disabled={isDeleting}
-          className="h-9 w-9 text-muted-foreground hover:text-destructive transition-colors shrink-0"
+          className="h-10 w-10 text-white/30 hover:text-red-400 hover:bg-red-400/10 transition-all rounded-xl"
         >
           {isDeleting ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-5 w-5" />
           )}
         </Button>
       </div>

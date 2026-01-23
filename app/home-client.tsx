@@ -23,39 +23,39 @@ export default function HomeClient({ initialTodos }: { initialTodos: Todo[] }) {
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full animate-float" style={{ animationDelay: '-2s' }} />
       </div>
 
-      <main className="container relative z-10 max-w-5xl px-4 py-12 mx-auto">
-        <header className="flex flex-col md:flex-row items-center justify-between mb-16 gap-6">
+      <main className="container relative z-10 max-w-5xl px-4 py-16 mx-auto">
+        <header className="flex flex-col md:flex-row items-center justify-between mb-20 gap-8">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="text-center md:text-left"
           >
-            <h1 className="text-6xl md:text-7xl radical-gradient-text tracking-tighter mb-2">
+            <h1 className="text-7xl md:text-8xl radical-gradient-text tracking-tighter mb-4">
               RADICAL<span className="text-white">FLOW</span>
             </h1>
-            <p className="text-muted-foreground text-lg font-medium tracking-wide">
-              Master your day, one radical step at a time.
+            <p className="text-white text-xl font-bold tracking-wide leading-relaxed">
+              Master your day, <span className="text-white/50">one radical step at a time.</span>
             </p>
           </motion.div>
 
-          <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10 backdrop-blur-sm">
+          <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl">
             <Button 
               variant={view === 'grid' ? 'secondary' : 'ghost'} 
               size="sm"
               onClick={() => setView('grid')}
-              className="rounded-xl px-6"
+              className={`rounded-xl px-8 h-10 font-black tracking-widest text-xs transition-all ${view === 'grid' ? 'bg-white text-black shadow-lg' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
             >
               <LayoutGrid className="w-4 h-4 mr-2" />
-              Grid
+              GRID
             </Button>
             <Button 
               variant={view === 'focus' ? 'secondary' : 'ghost'} 
               size="sm"
               onClick={() => setView('focus')}
-              className="rounded-xl px-6"
+              className={`rounded-xl px-8 h-10 font-black tracking-widest text-xs transition-all ${view === 'focus' ? 'bg-white text-black shadow-lg' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
             >
               <Target className="w-4 h-4 mr-2" />
-              Focus
+              FOCUS
             </Button>
           </div>
         </header>
@@ -67,17 +67,17 @@ export default function HomeClient({ initialTodos }: { initialTodos: Todo[] }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="grid gap-12"
+              className="grid gap-16"
             >
-              <div className="max-w-xl mx-auto w-full">
+              <div className="max-w-2xl mx-auto w-full">
                 <TodoForm />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {todos.length === 0 ? (
-                  <div className="col-span-full py-20 glass-card rounded-3xl text-center border-dashed border-2">
-                    <Zap className="w-12 h-12 mx-auto mb-4 text-purple-400 opacity-50" />
-                    <p className="text-xl font-light text-muted-foreground tracking-widest uppercase">Null Void</p>
+                  <div className="col-span-full py-24 glass-card rounded-[3rem] text-center border-dashed border-2 border-white/10">
+                    <Zap className="w-16 h-16 mx-auto mb-6 text-purple-400 opacity-40 animate-pulse" />
+                    <p className="text-2xl font-black text-white/20 tracking-[0.4em] uppercase">Null Void State</p>
                   </div>
                 ) : (
                   todos.map((todo, idx) => (
@@ -99,34 +99,35 @@ export default function HomeClient({ initialTodos }: { initialTodos: Todo[] }) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="flex flex-col items-center justify-center py-10"
+              className="flex flex-col items-center justify-center py-6"
             >
               {focusTodo ? (
-                <div className="w-full max-w-4xl glass-card p-12 md:p-24 rounded-[3rem] focus-glow relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500" />
+                <div className="w-full max-w-4xl glass-card p-16 md:p-28 rounded-[4rem] focus-glow relative overflow-hidden group">
+                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500" />
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
                     className="relative z-10"
                   >
-                    <div className="flex items-center gap-3 mb-8">
-                      <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
-                        <Sparkles className="text-purple-400 w-6 h-6" />
+                    <div className="flex items-center gap-4 mb-10">
+                      <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center shadow-inner shadow-purple-500/10">
+                        <Sparkles className="text-purple-400 w-7 h-7" />
                       </div>
-                      <span className="uppercase tracking-[0.3em] text-sm font-bold text-purple-400">Current Objective</span>
+                      <span className="uppercase tracking-[0.5em] text-xs font-black text-purple-400/80">Active Objective</span>
                     </div>
-                    <h2 className={`text-5xl md:text-8xl font-black mb-12 tracking-tight leading-[1.1] ${focusTodo.completed ? 'opacity-50 line-through' : ''}`}>
+                    <h2 className={`text-6xl md:text-[7rem] font-black mb-16 tracking-tighter leading-[0.9] text-white drop-shadow-2xl ${focusTodo.completed ? 'opacity-30 line-through' : ''}`}>
                       {focusTodo.task}
                     </h2>
-                    <div className="flex flex-wrap gap-4 pt-8 border-t border-white/10">
+                    <div className="flex flex-wrap gap-6 pt-12 border-t border-white/10">
                       <TodoItem todo={focusTodo} radical minimal />
                     </div>
                   </motion.div>
                 </div>
               ) : (
-                <div className="glass-card p-20 rounded-[3rem] text-center">
-                  <p className="text-2xl font-bold radical-gradient-text">Complete Clarity Reached</p>
+                <div className="glass-card p-24 rounded-[4rem] text-center border-white/20">
+                  <p className="text-4xl font-black radical-gradient-text tracking-tighter">ZENITH REACHED</p>
+                  <p className="text-white/40 mt-4 font-bold tracking-widest uppercase text-sm">All systems clear</p>
                 </div>
               )}
             </motion.div>
