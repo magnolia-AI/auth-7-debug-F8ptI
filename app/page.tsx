@@ -25,7 +25,7 @@ export default async function Home() {
   
   // If no user is logged in, show a landing state
   if (!result || result.error || !result.data || !result.data.user) {
-    return (
+    retrn (
       <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center p-4 text-center">
         <h1 className="text-4xl font-bold tracking-tight mb-4 text-primary">Simple Todo App</h1>
         <p className="text-xl text-muted-foreground mb-8 max-w-md">
