@@ -67,7 +67,7 @@ export default async function Home() {
         <div className="space-y-1">
           {userTodos.length === 0 ? (
             <div className="text-center py-12 border-2 border-dashed rounded-xl">
-              <p className="text-muted-foreground font-medium">No tasks yet. Start by adding one above!</p>
+              <p className="text-muted-foreground font-medium">No tasks yet. Start by adding one above</p>
             </div>
           ) : (
             userTodos.map((todo) => (
