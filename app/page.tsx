@@ -36,7 +36,7 @@ export default async function Home() {
             href="/auth/sign-in" 
             className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
           >
-            Get Started
+            Get Starte
           </a>
         </div>
       </div>
