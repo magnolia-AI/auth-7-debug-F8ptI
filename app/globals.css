@@ -2,107 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-  TEMPLATE NOTE:
-  These are template color and typography variables. Feel free to:
-  - Change any color values
-  - Add new variables
-  - Use a different color scheme entirely
-  - Modify the dark mode theme
-  - Customize typography (fonts)
-
-  COLOR FORMAT: L C H where:
-  L is the lightness (0-1)
-  C is the chroma (0-0.4)
-  H is the hue (0-360)
-
-  Example from how its passed through the tailwind config:
-  primary: {
-    DEFAULT: "oklch(var(--primary))",
-    foreground: "oklch(var(--primary-foreground))",
-  },
-
-  TYPOGRAPHY:
-  Font variables can be overridden by importing a brand theme CSS file.
-  The brand theme is generated from Magnolia and includes fonts defined
-  in the brand guidelines.
-*/
-
-:root {
-  /* Typography - can be overridden by brand theme */
-  --font-heading: 'Poppins', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  /* Border radius */
-  --radius: 0.625rem;
-
-  /* Colors */
-  --background: 1 0 0;
-  --foreground: 0.141 0.005 285.823;
-  --card: 1 0 0;
-  --card-foreground: 0.141 0.005 285.823;
-  --popover: 1 0 0;
-  --popover-foreground: 0.141 0.005 285.823;
-  --primary: 0.21 0.006 285.885;
-  --primary-foreground: 0.985 0 0;
-  --secondary: 0.967 0.001 286.375;
-  --secondary-foreground: 0.21 0.006 285.885;
-  --muted: 0.967 0.001 286.375;
-  --muted-foreground: 0.552 0.016 285.938;
-  --accent: 0.967 0.001 286.375;
-  --accent-foreground: 0.21 0.006 285.885;
-  --destructive: 0.577 0.245 27.325;
-  --destructive-foreground: 0.985 0 0;
-  --border: 0.92 0.004 286.32;
-  --input: 0.92 0.004 286.32;
-  --ring: 0.705 0.015 286.067;
-  --chart-1: 0.646 0.222 41.116;
-  --chart-2: 0.6 0.118 184.704;
-  --chart-3: 0.398 0.07 227.392;
-  --chart-4: 0.828 0.189 84.429;
-  --chart-5: 0.769 0.188 70.08;
-  --sidebar: 0.985 0 0;
-  --sidebar-foreground: 0.141 0.005 285.823;
-  --sidebar-primary: 0.21 0.006 285.885;
-  --sidebar-primary-foreground: 0.985 0 0;
-  --sidebar-accent: 0.967 0.001 286.375;
-  --sidebar-accent-foreground: 0.21 0.006 285.885;
-  --sidebar-border: 0.92 0.004 286.32;
-  --sidebar-ring: 0.705 0.015 286.067;
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 263.4 70% 50.4%;
+    --radius: 1rem;
+  }
 }
 
-.dark {
-  --background: 0.141 0.005 285.823;
-  --foreground: 0.985 0 0;
-  --card: 0.21 0.006 285.885;
-  --card-foreground: 0.985 0 0;
-  --popover: 0.21 0.006 285.885;
-  --popover-foreground: 0.985 0 0;
-  --primary: 0.92 0.004 286.32;
-  --primary-foreground: 0.21 0.006 285.885;
-  --secondary: 0.274 0.006 286.033;
-  --secondary-foreground: 0.985 0 0;
-  --muted: 0.274 0.006 286.033;
-  --muted-foreground: 0.705 0.015 286.067;
-  --accent: 0.274 0.006 286.033;
-  --accent-foreground: 0.985 0 0;
-  --destructive: 0.704 0.191 22.216;
-  --destructive-foreground: 0.985 0 0;
-  --border: 1 0 0 / 10%;
-  --input: 1 0 0 / 15%;
-  --ring: 0.552 0.016 285.938;
-  --chart-1: 0.488 0.243 264.376;
-  --chart-2: 0.696 0.17 162.48;
-  --chart-3: 0.769 0.188 70.08;
-  --chart-4: 0.627 0.265 303.9;
-  --chart-5: 0.645 0.246 16.439;
-  --sidebar: 0.21 0.006 285.885;
-  --sidebar-foreground: 0.985 0 0;
-  --sidebar-primary: 0.488 0.243 264.376;
-  --sidebar-primary-foreground: 0.985 0 0;
-  --sidebar-accent: 0.274 0.006 286.033;
-  --sidebar-accent-foreground: 0.985 0 0;
-  --sidebar-border: 1 0 0 / 10%;
-  --sidebar-ring: 0.552 0.016 285.938;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+    background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f3460);
+    background-attachment: fixed;
+  }
 }
+
+.glass-card {
+  @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+}
+
+.radical-gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 font-black;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Radical focus highlight */
+.focus-glow {
+  box-shadow: 0 0 50px -10px theme('colors.purple.500');
+}
+
