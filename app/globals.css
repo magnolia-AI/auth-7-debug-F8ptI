@@ -4,24 +4,24 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 240 10% 4%;
+    --foreground: 0 0% 100%;
     --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card-foreground: 0 0% 100%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 263.4 70% 50.4%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 20%;
+    --secondary-foreground: 0 0% 100%;
     --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --muted-foreground: 240 5% 75%;
+    --accent: 240 3.7% 20%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --border: 240 3.7% 25%;
+    --input: 240 3.7% 20%;
     --ring: 263.4 70% 50.4%;
     --radius: 1rem;
   }
@@ -33,32 +33,37 @@
   }
   body {
     @apply bg-background text-foreground overflow-x-hidden;
-    background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f3460);
+    background: radial-gradient(circle at top right, #0a0a1a, #0d1117, #050505);
     background-attachment: fixed;
   }
 }
 
 .glass-card {
-  @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  @apply backdrop-blur-2xl bg-white/[0.08] border border-white/[0.15] shadow-2xl;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
 }
 
 .radical-gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 font-black;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 font-black;
 }
 
 @keyframes float {
   0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(2deg); }
+  50% { transform: translateY(-15px) rotate(1deg); }
   100% { transform: translateY(0px) rotate(0deg); }
 }
 
 .animate-float {
-  animation: float 6s ease-in-out infinite;
+  animation: float 8s ease-in-out infinite;
 }
 
 /* Radical focus highlight */
 .focus-glow {
-  box-shadow: 0 0 50px -10px theme('colors.purple.500');
+  box-shadow: 0 0 80px -20px rgba(168, 85, 247, 0.4);
+}
+
+/* Ensure inputs are visible */
+input::placeholder {
+  color: rgba(255, 255, 255, 0.3) !important;
 }
 

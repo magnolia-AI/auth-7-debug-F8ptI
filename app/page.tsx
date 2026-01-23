@@ -24,24 +24,25 @@ export default async function Home() {
   
   if (!result || result.error || !result.data || !result.data.user) {
     return (
-      <div className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center p-4 text-center overflow-hidden">
+      <div className="relative min-h-screen flex flex-col items-center justify-center p-6 text-center overflow-hidden">
         {/* Radical Landing Background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/10 blur-[150px] rounded-full" />
+        <div className="absolute top-[-20%] left-[-20%] w-[140%] h-[140%] bg-gradient-to-br from-indigo-950 via-black to-slate-950" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/10 blur-[180px] rounded-full animate-pulse" />
         
-        <div className="relative z-10">
-          <h1 className="text-8xl md:text-[12rem] font-black tracking-tighter mb-8 radical-gradient-text leading-none">
-            FOCUS<br /><span className="text-white">PURE.</span>
+        <div className="relative z-10 max-w-4xl">
+          <h1 className="text-8xl md:text-[13rem] font-black tracking-tighter mb-12 radical-gradient-text leading-[0.85] select-none">
+            FOCUS<br /><span className="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">PURE.</span>
           </h1>
-          <p className="text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-            Strip away the noise. The most radical way to manage your tasks is to focus on what matters.
+          <p className="text-2xl md:text-3xl text-white font-medium mb-16 max-w-3xl mx-auto leading-relaxed [text-wrap:balance]">
+            The radical way to manage your tasks. 
+            <span className="text-white/60"> No noise. Just output.</span>
           </p>
-          <div className="flex justify-center gap-6">
+          <div className="flex flex-col sm:flex-row justify-center gap-8">
             <a 
               href="/auth/sign-in" 
-              className="group relative px-10 py-5 bg-white text-black rounded-2xl font-black text-xl hover:scale-105 transition-all duration-300 overflow-hidden"
+              className="group relative px-12 py-6 bg-white text-black rounded-[2rem] font-black text-2xl hover:scale-105 transition-all duration-300 shadow-2xl shadow-white/10"
             >
-              <span className="relative z-10">ENTER SYSTEM</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity" />
+              <span className="relative z-10">ACCESS SYSTEM</span>
             </a>
           </div>
         </div>
@@ -58,6 +59,10 @@ export default async function Home() {
     .where(eq(todos.userId, sessionUser.id))
     .orderBy(desc(todos.createdAt))
 
-  return <HomeClient initialTodos={userTodos} />
+  return (
+    <div className="pt-20">
+      <HomeClient initialTodos={userTodos} />
+    </div>
+  )
 }
 
