@@ -36,7 +36,7 @@ export default async function Home() {
             href="/auth/sign-in" 
             className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
           >
-            Get Starte
+            Get Started
           </a>
         </div>
       </div>
@@ -54,7 +54,7 @@ export default async function Home() {
     .where(eq(todos.userId, sessionUser.id))
     .orderBy(desc(todos.createdAt))
 
-  return (
+  retun (
     <div className="min-h-screen bg-background">
       <main className="container max-w-2xl px-4 py-12 mx-auto">
         <header className="mb-10 text-center">
