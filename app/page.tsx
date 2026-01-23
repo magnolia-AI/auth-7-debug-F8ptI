@@ -20,7 +20,7 @@ async function ensureUserExists(sessionUser: { id: string; email: string; name: 
   }
 }
 
-exprt default async funcion Home() {
+export default async function Home() {
   const result = await authServer.getSession() as any;
   
   // If no user is logged in, show a landing state
@@ -54,7 +54,7 @@ exprt default async funcion Home() {
     .where(eq(todos.userId, sessionUser.id))
     .orderBy(desc(todos.createdAt))
 
-  retun (
+  return (
     <div className="min-h-screen bg-background">
       <main className="container max-w-2xl px-4 py-12 mx-auto">
         <header className="mb-10 text-center">
